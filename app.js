@@ -72,7 +72,6 @@ form.addEventListener('submit', async (e) => {
         form.reset();
         document.getElementById('capa_url').value = '';
         carregarFilmes();
-        // Rola para o catálogo para ver o item adicionado
         document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth' });
     }
 });
@@ -123,7 +122,6 @@ function renderizarCards(lista, append = false) {
     });
 }
 
-// Função principal que busca os dados do Stremio baseado no estado atual
 async function buscarCinemeta(append = false) {
     if (estadoVitrine.carregando) return;
     estadoVitrine.carregando = true;
@@ -136,8 +134,6 @@ async function buscarCinemeta(append = false) {
     }
 
     const { tipo, genero, skip } = estadoVitrine;
-    
-    // Monta a URL com paginação (skip)
     let url = `https://v3-cinemeta.strem.io/catalog/${tipo}/${genero}/skip=${skip}.json`;
     
     try {
@@ -145,15 +141,12 @@ async function buscarCinemeta(append = false) {
         const dados = await resposta.json();
         
         let itens = dados.metas || [];
-        
-        // Filtra itens sem capa
         itens = itens.filter(item => item.poster);
 
         if (itens.length === 0 && !append) {
             stremioResultados.innerHTML = '<p style="color:#e50914">Fim do catálogo ou nenhum item encontrado.</p>';
         } else {
             renderizarCards(itens, append);
-            // Se retornou menos de 100, é porque chegou no fim
             if (itens.length < 50) {
                 btnCarregarMais.style.display = 'none';
             } else {
@@ -170,41 +163,33 @@ async function buscarCinemeta(append = false) {
     }
 }
 
-// Quando clica em um filtro de gênero
 window.carregarPorGenero = function(tipo, genero, botaoClicado) {
-    // Atualiza classe ativa dos botões
     document.querySelectorAll('.btn-filtro').forEach(btn => btn.classList.remove('ativo'));
     botaoClicado.classList.add('ativo');
 
-    // Limpa a busca
     stremioInput.value = '';
     estadoVitrine.buscando = false;
 
-    // Atualiza o estado e busca do zero
     estadoVitrine.tipo = tipo;
     estadoVitrine.genero = genero;
     estadoVitrine.skip = 0;
     
-    // Mostra os botões novamente (caso estivessem escondidos por uma busca)
     filtrosGeneros.style.display = 'flex';
     btnCarregarMais.style.display = 'inline-block';
     
     buscarCinemeta(false);
 };
 
-// Quando clica no botão "Carregar Mais"
 window.carregarMais = function() {
-    estadoVitrine.skip += 100; // Cinemeta retorna blocos de 100 itens
+    estadoVitrine.skip += 100;
     buscarCinemeta(true);
 };
 
-// Lógica de Busca (Input)
 stremioInput.addEventListener('input', (e) => {
     clearTimeout(timeoutBusca);
     const query = e.target.value.trim();
     
     if (query.length === 0) {
-        // Se apagar a busca, volta para o filtro que estava ativo
         estadoVitrine.buscando = false;
         filtrosGeneros.style.display = 'flex';
         const botaoAtivo = document.querySelector('.btn-filtro.ativo') || document.querySelector('.btn-filtro');
@@ -215,8 +200,8 @@ stremioInput.addEventListener('input', (e) => {
     if (query.length < 3) return;
     
     estadoVitrine.buscando = true;
-    filtrosGeneros.style.display = 'none'; // Esconde os gêneros durante a busca
-    btnCarregarMais.style.display = 'none'; // Esconde o carregar mais
+    filtrosGeneros.style.display = 'none';
+    btnCarregarMais.style.display = 'none';
     
     timeoutBusca = setTimeout(() => buscarPorTexto(query), 600);
 });
@@ -225,7 +210,6 @@ async function buscarPorTexto(query) {
     stremioResultados.innerHTML = '<p style="color:white">Buscando...</p>';
     const queryEncoded = encodeURIComponent(query);
     
-    // Busca em filmes e séries ao mesmo tempo
     const urlFilmes = `https://v3-cinemeta.strem.io/catalog/movie/top/search=${queryEncoded}.json`;
     const urlSeries = `https://v3-cinemeta.strem.io/catalog/series/top/search=${queryEncoded}.json`;
 
@@ -235,7 +219,7 @@ async function buscarPorTexto(query) {
         const dadosSeries = await resSeries.json();
 
         const resultados = [...(dadosFilmes.metas || []), ...(dadosSeries.metas || [])];
-        const comCapa = resultados.filter(r => r.poster).slice(0, 40); // Limita a 40 resultados visuais
+        const comCapa = resultados.filter(r => r.poster).slice(0, 40);
 
         renderizarCards(comCapa, false);
     } catch (erro) {
@@ -244,11 +228,9 @@ async function buscarPorTexto(query) {
     }
 }
 
-// Preenche o formulário
 async function selecionarItemStremio(item) {
     const urlMeta = `https://v3-cinemeta.strem.io/meta/${item.type}/${item.id}.json`;
     
-    // Feedback visual
     const textoOriginal = stremioResultados.innerHTML;
     stremioResultados.innerHTML = '<p style="color:white">Buscando detalhes...</p>';
 
@@ -263,7 +245,7 @@ async function selecionarItemStremio(item) {
         document.getElementById('capa_url').value = meta.poster || item.poster;
         document.getElementById('genero').value = meta.genres ? meta.genres.join(', ') : '';
         
-        stremioResultados.innerHTML = textoOriginal; // Restaura as capas
+        stremioResultados.innerHTML = textoOriginal;
         
         document.getElementById('titulo').scrollIntoView({ behavior: 'smooth', block: 'center' });
         document.getElementById('status').focus();
@@ -276,5 +258,4 @@ async function selecionarItemStremio(item) {
 
 // --- INICIALIZAÇÃO ---
 carregarFilmes();
-// Inicia carregando os Populares (Filmes)
 buscarCinemeta(false); 
