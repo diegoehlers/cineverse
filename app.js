@@ -193,7 +193,7 @@ stremioInput.addEventListener('input', (e) => {
         estadoVitrine.buscando = false;
         filtrosGeneros.style.display = 'flex';
         const botaoAtivo = document.querySelector('.btn-filtro.ativo') || document.querySelector('.btn-filtro');
-        carregarPorGenero(estadoVitrine.tipo, estavdoVitrine.genero, botaoAtivo);
+        carregarPorGenero(estadoVitrine.tipo, estadoVitrine.genero, botaoAtivo);
         return;
     }
     
@@ -258,4 +258,4 @@ async function selecionarItemStremio(item) {
 
 // --- INICIALIZAÇÃO ---
 carregarFilmes();
-buscarCinemeta(false); 
+buscarCinemeta(false);
