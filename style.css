@@ -28,8 +28,12 @@ h2 { margin-bottom: 15px; color: #f5c518; }
 .btn-random { background-color: #333; color: #fff; padding: 10px 15px; border: 1px solid #e50914; border-radius: 4px; cursor: pointer; font-weight: bold; }
 .btn-random:hover { background-color: #e50914; }
 
-/* Grid de Capas (Vitrine e Catálogo) */
-.grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
+/* AQUI ESTÁ A MÁGICA DA GRADE LADO A LADO */
+.grid-container { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+    gap: 15px; 
+}
 
 /* Resultados da Busca/Vitrine Stremio */
 .stremio-item { background-color: #2b2b2b; padding: 10px; border-radius: 8px; cursor: pointer; text-align: center; transition: transform 0.2s; }
@@ -52,6 +56,6 @@ h2 { margin-bottom: 15px; color: #f5c518; }
 .btn-favorito { background: none; border: none; font-size: 1.5em; cursor: pointer; position: absolute; top: 10px; right: 10px; text-shadow: 0 0 5px #000; z-index: 10; }
 
 /* Botão Carregar Mais */
-.btn-load-more { padding: 12px 30px; background-color: transparent; color: #f5c518; border: 2px solid #f5c518; border-radius: 30px; font-size: 1.1em; font-weight: bold; cursor: pointer; transition: 0.3s; }
+.btn-load-more { padding: 12px 30px; background-color: transparent; color: #f5c518; border: 2px solid #f5c518; border-radius: 30px; font-size: 1.1em; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 20px; }
 .btn-load-more:hover { background-color: #f5c518; color: #141414; }
 .btn-load-more:disabled { border-color: #555; color: #555; cursor: not-allowed; }
