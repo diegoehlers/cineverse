@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CineVerse | Seu universo de entretenimento</title>
-    <!-- Caminho direto para o seu arquivo CSS -->
     <link rel="stylesheet" href="estilo.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -15,14 +14,12 @@
     </header>
 
     <main>
-        <!-- Área de Vitrine e Busca (Stremio) -->
         <section class="add-form search-section">
             <h2>🍿 Descubra e Escolha</h2>
             <p class="subtitle">Navegue por gêneros ou pesquise pelo nome:</p>
             
             <input type="text" id="stremio-search" placeholder="Pesquisar filme ou série...">
             
-            <!-- Botões de Gêneros -->
             <div id="filtros-generos" class="filtros-container">
                 <button class="btn-filtro ativo" onclick="carregarPorGenero('movie', 'top', this)">🔥 Populares (Filmes)</button>
                 <button class="btn-filtro" onclick="carregarPorGenero('movie', 'Action', this)">💥 Ação</button>
@@ -33,16 +30,13 @@
                 <button class="btn-filtro" onclick="carregarPorGenero('series', 'top', this)">📺 Populares (Séries)</button>
             </div>
 
-            <!-- A vitrine de capas vai aparecer aqui -->
             <div id="stremio-resultados" class="grid-container"></div>
             
-            <!-- Botão Carregar Mais -->
             <div style="text-align: center; margin-top: 20px;">
                 <button id="btn-carregar-mais" class="btn-load-more" onclick="carregarMais()">Carregar Mais</button>
             </div>
         </section>
 
-        <!-- Formulário de Cadastro -->
         <section class="add-form">
             <h2>Adicionar Título ao Catálogo</h2>
             <form id="movie-form">
@@ -70,7 +64,6 @@
             </form>
         </section>
 
-        <!-- Catálogo Pessoal -->
         <section id="catalogo">
             <div class="catalogo-header">
                 <h2>Meu Catálogo</h2>
@@ -80,7 +73,6 @@
         </section>
     </main>
 
-    <!-- Caminho direto para o seu arquivo JS -->
     <script src="app.js"></script>
 </body>
 </html>
